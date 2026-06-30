@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pustaka Nusantara — Perpustakaan Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <span class="brand-icon">📚</span>
+        <div>
+          <div class="brand-name">Pustaka Nusantara</div>
+          <div class="brand-tagline">Perpustakaan Digital</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="#beranda" class="nav-link active" onclick="scrollTo('beranda')">Beranda</a>
+        <a href="#koleksi" class="nav-link" onclick="scrollTo('koleksi')">Koleksi</a>
+        <a href="#tentang" class="nav-link" onclick="scrollTo('tentang')">Tentang</a>
+        <a href="#kontak" class="nav-link" onclick="scrollTo('kontak')">Kontak</a>
+      </nav>
+      <div class="nav-right">
+        <button class="btn-login" onclick="openLoginModal()">Masuk</button>
+        <button class="hamburger" id="hamburger" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#beranda" onclick="closeMobileMenu()">Beranda</a>
+      <a href="#koleksi" onclick="closeMobileMenu()">Koleksi</a>
+      <a href="#tentang" onclick="closeMobileMenu()">Tentang</a>
+      <a href="#kontak" onclick="closeMobileMenu()">Kontak</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="beranda">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Selamat Datang di</p>
+      <h1 class="hero-title">Pustaka <em>Nusantara</em></h1>
+      <p class="hero-desc">
+        Temukan ribuan koleksi buku pilihan — dari sastra klasik hingga ilmu pengetahuan modern.
+        Pinjam, baca, dan jadikan membaca sebagai gaya hidupmu.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('koleksi').scrollIntoView({behavior:'smooth'})">
+          Jelajahi Koleksi
+        </button>
+        <button class="btn-secondary" onclick="openLoginModal()">Daftar Gratis</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">2.400+</span>
+          <span class="stat-label">Koleksi Buku</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">380</span>
+          <span class="stat-label">Anggota Aktif</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">24 Jam</span>
+          <span class="stat-label">Akses Digital</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="book-stack">
+        <div class="stack-book s1"></div>
+        <div class="stack-book s2"></div>
+        <div class="stack-book s3"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEARCH & FILTER ===== -->
+  <section class="search-bar-section">
+    <div class="container">
+      <div class="search-wrap">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Cari judul buku, pengarang, atau kategori..." oninput="filterBooks()" />
+        </div>
+        <div class="filter-pills" id="filterPills">
+          <button class="pill active" onclick="setFilter('semua', this)">Semua</button>
+          <button class="pill" onclick="setFilter('fiksi', this)">Fiksi</button>
+          <button class="pill" onclick="setFilter('sains', this)">Sains</button>
+          <button class="pill" onclick="setFilter('sejarah', this)">Sejarah</button>
+          <button class="pill" onclick="setFilter('teknologi', this)">Teknologi</button>
+          <button class="pill" onclick="setFilter('sastra', this)">Sastra</button>
+          <button class="pill" onclick="setFilter('bisnis', this)">Bisnis</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KOLEKSI BUKU ===== -->
+  <section class="koleksi-section" id="koleksi">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-eyebrow">Katalog Perpustakaan</p>
+        <h2 class="section-title">Koleksi Buku Pilihan</h2>
+        <p class="section-sub">Koleksi kami mencakup berbagai genre dan bidang ilmu untuk semua kalangan pembaca.</p>
+      </div>
+      <div class="books-grid" id="booksGrid">
+        <!-- Buku akan di-render oleh JS -->
+      </div>
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <span>📭</span>
+        <p>Buku tidak ditemukan. Coba kata kunci lain.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TENTANG ===== -->
+  <section class="tentang-section" id="tentang">
+    <div class="container tentang-inner">
+      <div class="tentang-text">
+        <p class="section-eyebrow">Tentang Kami</p>
+        <h2 class="section-title">Lebih dari Sekadar Perpustakaan</h2>
+        <p>Pustaka Nusantara berdiri sejak tahun 2010 dengan misi menyediakan akses ilmu pengetahuan yang merata bagi seluruh lapisan masyarakat. Kami percaya bahwa setiap orang berhak mendapatkan akses ke sumber bacaan berkualitas.</p>
+        <p>Dengan lebih dari 2.400 judul buku dari berbagai penerbit terkemuka, perpustakaan kami terus berkembang setiap bulannya demi memenuhi kebutuhan literasi masyarakat.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-icon">✦</span>
+            <div>
+              <strong>Koleksi Lengkap</strong>
+              <p>Ribuan judul dari berbagai genre dan disiplin ilmu</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">✦</span>
+            <div>
+              <strong>Peminjaman Mudah</strong>
+              <p>Proses peminjaman cepat, maksimal 7 hari per buku</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">✦</span>
+            <div>
+              <strong>Bebas Denda</strong>
+              <p>Kembalikan tepat waktu dan nikmati layanan gratis kami</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tentang-image">
+        <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=600&q=80" alt="Interior Perpustakaan" />
+        <div class="img-badge">
+          <strong>14 Tahun</strong>
+          <span>Melayani Pembaca</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KONTAK ===== -->
+  <section class="kontak-section" id="kontak">
+    <div class="container">
+      <div class="section-header" style="text-align:center;">
+        <p class="section-eyebrow">Hubungi Kami</p>
+        <h2 class="section-title">Kami Siap Membantu</h2>
+      </div>
+      <div class="kontak-grid">
+        <div class="kontak-card">
+          <span>📍</span>
+          <h4>Alamat</h4>
+          <p>Jl. Merdeka No. 12, Kota Sorong, Papua Barat Daya</p>
+        </div>
+        <div class="kontak-card">
+          <span>🕐</span>
+          <h4>Jam Operasional</h4>
+          <p>Senin – Jumat: 08.00 – 20.00<br/>Sabtu – Minggu: 09.00 – 17.00</p>
+        </div>
+        <div class="kontak-card">
+          <span>📞</span>
+          <h4>Telepon & Email</h4>
+          <p>(0951) 321-456<br/>info@pustakanusantara.id</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span>📚</span>
+        <span class="brand-name">Pustaka Nusantara</span>
+      </div>
+      <p class="footer-copy">© 2024 Pustaka Nusantara. Dibuat dengan ❤️ untuk para pencinta buku.</p>
+    </div>
+  </footer>
+
+  <!-- ===== MODAL DETAIL BUKU ===== -->
+  <div class="modal-overlay" id="detailModal" onclick="closeModal('detailModal')">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('detailModal')">✕</button>
+      <div class="modal-detail-inner" id="modalDetailContent">
+        <!-- Diisi oleh JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL PINJAM BUKU ===== -->
+  <div class="modal-overlay" id="pinjamModal" onclick="closeModal('pinjamModal')">
+    <div class="modal-box modal-sm" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('pinjamModal')">✕</button>
+      <div id="pinjamContent">
+        <!-- Diisi oleh JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MODAL LOGIN ===== -->
+  <div class="modal-overlay" id="loginModal" onclick="closeModal('loginModal')">
+    <div class="modal-box modal-sm" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+      <div class="login-form">
+        <h3>Masuk ke Akun Anda</h3>
+        <p>Masuk untuk mulai meminjam buku</p>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="email@contoh.com" id="loginEmail" />
+        </div>
+        <div class="form-group">
+          <label>Kata Sandi</label>
+          <input type="password" placeholder="••••••••" id="loginPass" />
+        </div>
+        <button class="btn-primary w-full" onclick="handleLogin()">Masuk</button>
+        <p class="form-alt">Belum punya akun? <a href="#" onclick="switchToRegister()">Daftar sekarang</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
